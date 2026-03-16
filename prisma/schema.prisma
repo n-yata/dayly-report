@@ -1,0 +1,121 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  sales
+  manager
+}
+
+enum ReportStatus {
+  draft
+  submitted
+  approved
+  rejected
+}
+
+enum CommentTarget {
+  problem
+  plan
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(100)
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  role      Role
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  dailyReports     DailyReport[] @relation("ReportAuthor")
+  approvedReports  DailyReport[] @relation("ReportApprover")
+  comments         Comment[]
+
+  @@map("users")
+}
+
+model Customer {
+  id          Int      @id @default(autoincrement())
+  companyName String   @db.VarChar(200) @map("company_name")
+  contactName String   @db.VarChar(100) @map("contact_name")
+  phone       String?  @db.VarChar(20)
+  email       String?  @db.VarChar(255)
+  address     String?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  visitRecords VisitRecord[]
+
+  @@map("customers")
+}
+
+model DailyReport {
+  id         Int          @id @default(autoincrement())
+  userId     Int          @map("user_id")
+  reportDate DateTime     @db.Date @map("report_date")
+  problem    String?
+  plan       String?
+  status     ReportStatus @default(draft)
+  approvedBy Int?         @map("approved_by")
+  approvedAt DateTime?    @map("approved_at")
+  createdAt  DateTime     @default(now()) @map("created_at")
+  updatedAt  DateTime     @updatedAt @map("updated_at")
+
+  // Relations
+  user         User          @relation("ReportAuthor", fields: [userId], references: [id])
+  approver     User?         @relation("ReportApprover", fields: [approvedBy], references: [id])
+  visitRecords VisitRecord[]
+  comments     Comment[]
+
+  @@unique([userId, reportDate])
+  @@map("daily_reports")
+}
+
+model VisitRecord {
+  id            Int      @id @default(autoincrement())
+  dailyReportId Int      @map("daily_report_id")
+  customerId    Int      @map("customer_id")
+  visitTime     String   @db.VarChar(5) @map("visit_time") // "HH:MM"
+  purpose       String
+  caseProduct   String?  @db.VarChar(255) @map("case_product")
+  nextAction    String?  @map("next_action")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  dailyReport DailyReport @relation(fields: [dailyReportId], references: [id], onDelete: Cascade)
+  customer    Customer    @relation(fields: [customerId], references: [id])
+
+  @@map("visit_records")
+}
+
+model Comment {
+  id            Int           @id @default(autoincrement())
+  dailyReportId Int           @map("daily_report_id")
+  userId        Int           @map("user_id")
+  targetType    CommentTarget @map("target_type")
+  content       String
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+
+  // Relations
+  dailyReport DailyReport @relation(fields: [dailyReportId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@map("comments")
+}

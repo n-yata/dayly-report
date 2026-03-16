@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Bash(git init:*)",
+      "Bash(npx husky:*)",
+      "Bash(gh repo:*)",
+      "Bash(gh auth:*)",
+      "Bash(cd C:/develop/workspace-claude/dayly-report && node -e \"const p = require\\('./node_modules/next/package.json'\\); console.log\\(p.version\\)\")",
+      "Bash(node -e \"const c = require\\('eslint-config-next'\\); console.log\\(typeof c, Object.keys\\(c || {}\\).slice\\(0,5\\)\\)\" 2>&1)",
+      "Bash(cd C:/develop/workspace-claude/dayly-report && npx eslint vitest.config.ts vitest.setup.ts 2>&1)"
+    ]
+  }
+}
