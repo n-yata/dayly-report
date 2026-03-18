@@ -1,6 +1,7 @@
 {
   "name": "dayly-report",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "directories": {
     "doc": "doc"
@@ -70,6 +71,7 @@
     "jsonwebtoken": "^9.0.3",
     "lucide-react": "^0.577.0",
     "next": "^16.1.6",
+    "radix-ui": "^1.4.3",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tailwind-merge": "^3.5.0",
