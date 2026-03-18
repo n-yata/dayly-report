@@ -24,6 +24,39 @@ test:
 build:
 	npm run build
 
+# ── DB ────────────────────────────────────────────────────────────────────────
+
+.PHONY: db-up
+db-up:
+	docker compose up -d db
+
+.PHONY: db-down
+db-down:
+	docker compose down
+
+.PHONY: db-migrate
+db-migrate:
+	npx prisma migrate dev
+
+.PHONY: db-seed
+db-seed:
+	npx prisma db seed
+
+.PHONY: db-reset
+db-reset:
+	npx prisma migrate reset
+
+.PHONY: db-studio
+db-studio:
+	npx prisma studio
+
+.PHONY: db-setup
+db-setup:
+	docker compose up -d db
+	docker compose exec db sh -c 'until pg_isready -U dayly_report; do sleep 1; done'
+	npx prisma migrate dev
+	npx prisma db seed
+
 # ── Docker ────────────────────────────────────────────────────────────────────
 
 .PHONY: docker-build

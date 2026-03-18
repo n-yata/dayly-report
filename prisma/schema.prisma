@@ -2,7 +2,8 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -50,7 +51,7 @@ model User {
 
 model Customer {
   id          Int      @id @default(autoincrement())
-  companyName String   @db.VarChar(200) @map("company_name")
+  companyName String   @unique @db.VarChar(200) @map("company_name")
   contactName String   @db.VarChar(100) @map("contact_name")
   phone       String?  @db.VarChar(20)
   email       String?  @db.VarChar(255)
