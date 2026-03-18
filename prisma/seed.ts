@@ -49,7 +49,7 @@ async function main() {
   // ── Customers ─────────────────────────────────────────────────────────────
 
   const customerA = await prisma.customer.upsert({
-    where: { id: 1 },
+    where: { companyName: '株式会社A' },
     update: {},
     create: {
       companyName: '株式会社A',
@@ -61,7 +61,7 @@ async function main() {
   })
 
   const customerB = await prisma.customer.upsert({
-    where: { id: 2 },
+    where: { companyName: '有限会社B' },
     update: {},
     create: {
       companyName: '有限会社B',
@@ -73,7 +73,7 @@ async function main() {
   })
 
   const customerC = await prisma.customer.upsert({
-    where: { id: 3 },
+    where: { companyName: '株式会社C' },
     update: {},
     create: {
       companyName: '株式会社C',

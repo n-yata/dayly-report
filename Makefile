@@ -51,7 +51,11 @@ db-studio:
 	npx prisma studio
 
 .PHONY: db-setup
-db-setup: db-up db-migrate db-seed
+db-setup:
+	docker compose up -d db
+	docker compose exec db sh -c 'until pg_isready -U dayly_report; do sleep 1; done'
+	npx prisma migrate dev
+	npx prisma db seed
 
 # ── Docker ────────────────────────────────────────────────────────────────────
 

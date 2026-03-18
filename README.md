@@ -24,15 +24,18 @@ npm install
 ### 2. 環境変数の設定
 
 ```bash
-cp .env.local.example .env.local
+cp .env.example .env          # Prisma CLI 用（gitignore 済み）
+cp .env.example .env.local    # Next.js dev server 用（gitignore 済み）
 ```
 
-`.env.local` を編集し、`DATABASE_URL` を設定します。
+各ファイルを編集し、値を設定します。
 
 | 変数名         | 説明                                              |
 | -------------- | ------------------------------------------------- |
 | `PROJECT_ID`   | GCP プロジェクト ID（Cloud Run デプロイ時に使用） |
 | `DATABASE_URL` | PostgreSQL 接続 URL                               |
+
+> **Note**: Prisma CLI は `.env` を読み込みます。Next.js の dev server は `.env.local` を読み込みます。両方のファイルに `DATABASE_URL` を設定してください。
 
 ### 3. ローカル DB の起動
 
