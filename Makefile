@@ -24,6 +24,35 @@ test:
 build:
 	npm run build
 
+# ── DB ────────────────────────────────────────────────────────────────────────
+
+.PHONY: db-up
+db-up:
+	docker compose up -d db
+
+.PHONY: db-down
+db-down:
+	docker compose down
+
+.PHONY: db-migrate
+db-migrate:
+	npx prisma migrate dev
+
+.PHONY: db-seed
+db-seed:
+	npx prisma db seed
+
+.PHONY: db-reset
+db-reset:
+	npx prisma migrate reset
+
+.PHONY: db-studio
+db-studio:
+	npx prisma studio
+
+.PHONY: db-setup
+db-setup: db-up db-migrate db-seed
+
 # ── Docker ────────────────────────────────────────────────────────────────────
 
 .PHONY: docker-build
