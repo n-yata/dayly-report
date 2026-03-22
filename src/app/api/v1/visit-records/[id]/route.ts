@@ -49,6 +49,16 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       return errorResponse('VALIDATION_ERROR', message)
     }
 
+    // customer_id が指定された場合は顧客の存在確認
+    if (parsed.data.customer_id !== undefined) {
+      const customer = await prisma.customer.findUnique({
+        where: { id: parsed.data.customer_id },
+      })
+      if (!customer) {
+        return errorResponse('VALIDATION_ERROR', `顧客ID ${parsed.data.customer_id} が存在しません`)
+      }
+    }
+
     const updateData: {
       customerId?: number
       visitTime?: string
