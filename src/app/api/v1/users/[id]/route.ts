@@ -58,6 +58,15 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       role?: 'sales' | 'manager'
     } = {}
 
+    if (parsed.data.email !== undefined) {
+      const duplicate = await prisma.user.findFirst({
+        where: { email: parsed.data.email, id: { not: userId } },
+      })
+      if (duplicate) {
+        return errorResponse('CONFLICT', 'このメールアドレスは既に登録されています')
+      }
+    }
+
     if (parsed.data.name !== undefined) updateData.name = parsed.data.name
     if (parsed.data.email !== undefined) updateData.email = parsed.data.email
     if (parsed.data.role !== undefined) updateData.role = parsed.data.role

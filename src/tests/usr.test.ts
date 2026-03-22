@@ -214,4 +214,47 @@ describe('USR: ユーザーマスタ', () => {
     })
     expect(res.status).toBe(403)
   })
+
+  it('USR-012: 他のユーザーと重複するメールアドレスに更新すると409が返る', async () => {
+    // テスト用ユーザーを作成
+    const email = `test-usr012-${Date.now()}@example.com`
+    createdUserEmails.push(email)
+    const created = await prisma.user.create({
+      data: { name: 'メール重複テスト', email, password: 'hashed', role: 'sales' },
+    })
+
+    // 既存ユーザー（sales）のメールアドレスに変更しようとする
+    const req = makeRequest(
+      'PUT',
+      `http://localhost/api/v1/users/${created.id}`,
+      users.manager.token,
+      { email: users.sales.email }
+    )
+    const res = await updatePUT(req, { params: Promise.resolve({ id: String(created.id) }) })
+    expect(res.status).toBe(409)
+    const json = await res.json()
+    expect(json.error.code).toBe('CONFLICT')
+  })
+
+  it('USR-013: 自分自身のメールアドレスに更新する場合は409にならない', async () => {
+    // テスト用ユーザーを作成
+    const email = `test-usr013-${Date.now()}@example.com`
+    createdUserEmails.push(email)
+    const created = await prisma.user.create({
+      data: { name: '自己更新テスト', email, password: 'hashed', role: 'sales' },
+    })
+
+    // 同じメールアドレスで更新（自己更新）
+    const req = makeRequest(
+      'PUT',
+      `http://localhost/api/v1/users/${created.id}`,
+      users.manager.token,
+      { email, name: '自己更新テスト（更新後）' }
+    )
+    const res = await updatePUT(req, { params: Promise.resolve({ id: String(created.id) }) })
+    expect(res.status).toBe(200)
+    const json = await res.json()
+    expect(json.data.email).toBe(email)
+    expect(json.data.name).toBe('自己更新テスト（更新後）')
+  })
 })
