@@ -84,8 +84,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
     const updated = await prisma.dailyReport.update({
       where: { id: reportId },
       data: {
-        problem: parsed.data.problem ?? undefined,
-        plan: parsed.data.plan ?? undefined,
+        ...(parsed.data.problem !== undefined ? { problem: parsed.data.problem } : {}),
+        ...(parsed.data.plan !== undefined ? { plan: parsed.data.plan } : {}),
       },
       include: dailyReportInclude,
     })
