@@ -214,6 +214,24 @@ describe('VST: 訪問記録', () => {
     expect(data.error.code).toBe('VALIDATION_ERROR')
   })
 
+  // VST-004b: PUT /visit-records/:id で存在しない顧客IDを指定すると400
+  it('VST-004b: PUT /visit-records/:id で存在しない顧客IDを指定すると400が返る', async () => {
+    const report = await createDraftReport(users.sales.token, true)
+    const visitId = report.visit_records[0].id
+
+    const req = makeReq(
+      `http://localhost/api/v1/visit-records/${visitId}`,
+      'PUT',
+      users.sales.token,
+      { customer_id: 999999 }
+    )
+    const res = await updateVisitPUT(req, { params: Promise.resolve({ id: String(visitId) }) })
+    const data = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(data.error.code).toBe('VALIDATION_ERROR')
+  })
+
   // VST-008: 正常更新
   it('VST-008: 訪問記録を正常に更新できる', async () => {
     const report = await createDraftReport(users.sales.token, true)
