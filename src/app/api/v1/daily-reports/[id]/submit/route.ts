@@ -51,7 +51,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     return successResponse({
       id: updated.id,
       status: updated.status,
-      updatedAt: updated.updatedAt.toISOString(),
+      updated_at: updated.updatedAt.toISOString(),
     })
   } catch (error) {
     if (error instanceof UnauthorizedError) return errorResponse('UNAUTHORIZED', error.message)

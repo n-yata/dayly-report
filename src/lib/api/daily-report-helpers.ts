@@ -33,25 +33,25 @@ export function formatDailyReport(
   if (!report) return null
   return {
     id: report.id,
-    reportDate: report.reportDate.toISOString().split('T')[0],
+    report_date: report.reportDate.toISOString().split('T')[0],
     problem: report.problem,
     plan: report.plan,
     status: report.status,
-    approvedBy: report.approver ? { id: report.approver.id, name: report.approver.name } : null,
-    approvedAt: report.approvedAt?.toISOString() ?? null,
+    approved_by: report.approver ? { id: report.approver.id, name: report.approver.name } : null,
+    approved_at: report.approvedAt?.toISOString() ?? null,
     user: { id: report.user.id, name: report.user.name },
-    visitRecords: report.visitRecords.map((vr) => ({
+    visit_records: report.visitRecords.map((vr) => ({
       id: vr.id,
-      customerId: vr.customerId,
-      customerName: vr.customer.companyName,
-      visitTime: vr.visitTime,
+      customer_id: vr.customerId,
+      customer_name: vr.customer.companyName,
+      visit_time: vr.visitTime,
       purpose: vr.purpose,
-      caseProduct: vr.caseProduct,
-      nextAction: vr.nextAction,
-      createdAt: vr.createdAt.toISOString(),
-      updatedAt: vr.updatedAt.toISOString(),
+      case_product: vr.caseProduct,
+      next_action: vr.nextAction,
+      created_at: vr.createdAt.toISOString(),
+      updated_at: vr.updatedAt.toISOString(),
     })),
-    createdAt: report.createdAt.toISOString(),
-    updatedAt: report.updatedAt.toISOString(),
+    created_at: report.createdAt.toISOString(),
+    updated_at: report.updatedAt.toISOString(),
   }
 }

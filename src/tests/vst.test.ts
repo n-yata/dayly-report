@@ -100,7 +100,7 @@ describe('VST: 訪問記録', () => {
 
     expect(res.status).toBe(201)
     expect(data.data.purpose).toBe('テスト訪問')
-    expect(data.data.customerName).toBeDefined()
+    expect(data.data.customer_name).toBeDefined()
   })
 
   // VST-002: submitted日報に訪問記録追加は400
@@ -217,7 +217,7 @@ describe('VST: 訪問記録', () => {
   // VST-008: 正常更新
   it('VST-008: 訪問記録を正常に更新できる', async () => {
     const report = await createDraftReport(users.sales.token, true)
-    const visitId = report.visitRecords[0].id
+    const visitId = report.visit_records[0].id
 
     const req = makeReq(
       `http://localhost/api/v1/visit-records/${visitId}`,
@@ -235,7 +235,7 @@ describe('VST: 訪問記録', () => {
   // VST-009: 他人の訪問記録を更新すると403
   it('VST-009: 他人の訪問記録を更新すると403が返る', async () => {
     const report = await createDraftReport(users.sales2.token, true)
-    const visitId = report.visitRecords[0].id
+    const visitId = report.visit_records[0].id
 
     const req = makeReq(
       `http://localhost/api/v1/visit-records/${visitId}`,
@@ -253,7 +253,7 @@ describe('VST: 訪問記録', () => {
   // VST-010: 正常削除
   it('VST-010: 訪問記録を正常に削除できる（204）', async () => {
     const report = await createDraftReport(users.sales.token, true)
-    const visitId = report.visitRecords[0].id
+    const visitId = report.visit_records[0].id
 
     const req = makeReq(
       `http://localhost/api/v1/visit-records/${visitId}`,
@@ -268,7 +268,7 @@ describe('VST: 訪問記録', () => {
   // VST-011: submitted日報の訪問記録を削除は400
   it('VST-011: submitted状態の日報の訪問記録を削除すると400が返る', async () => {
     const report = await createDraftReport(users.sales.token, true)
-    const visitId = report.visitRecords[0].id
+    const visitId = report.visit_records[0].id
 
     // 提出
     const submitReq = makeReq(
@@ -294,7 +294,7 @@ describe('VST: 訪問記録', () => {
   // VST-012: 他人の訪問記録を削除すると403
   it('VST-012: 他人の訪問記録を削除すると403が返る', async () => {
     const report = await createDraftReport(users.sales2.token, true)
-    const visitId = report.visitRecords[0].id
+    const visitId = report.visit_records[0].id
 
     const req = makeReq(
       `http://localhost/api/v1/visit-records/${visitId}`,

@@ -72,15 +72,15 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     return successResponse(
       {
         id: visitRecord.id,
-        dailyReportId: visitRecord.dailyReportId,
-        customerId: visitRecord.customerId,
-        customerName: visitRecord.customer.companyName,
-        visitTime: visitRecord.visitTime,
+        daily_report_id: visitRecord.dailyReportId,
+        customer_id: visitRecord.customerId,
+        customer_name: visitRecord.customer.companyName,
+        visit_time: visitRecord.visitTime,
         purpose: visitRecord.purpose,
-        caseProduct: visitRecord.caseProduct,
-        nextAction: visitRecord.nextAction,
-        createdAt: visitRecord.createdAt.toISOString(),
-        updatedAt: visitRecord.updatedAt.toISOString(),
+        case_product: visitRecord.caseProduct,
+        next_action: visitRecord.nextAction,
+        created_at: visitRecord.createdAt.toISOString(),
+        updated_at: visitRecord.updatedAt.toISOString(),
       },
       201
     )
