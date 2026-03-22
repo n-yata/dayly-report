@@ -288,6 +288,26 @@ describe('RPT: 日報', () => {
     expect(data.data.problem).toBe('更新後の課題')
   })
 
+  // RPT-030b: nullを渡してproblem/planをクリアできる
+  it('RPT-030b: nullを渡してproblem/planをクリアできる', async () => {
+    const { data: created } = await createTestReport(users.sales.token)
+    const reportId = created.data.id
+
+    // nullを渡してproblemをクリア
+    const req = makeReq(
+      `http://localhost/api/v1/daily-reports/${reportId}`,
+      'PUT',
+      users.sales.token,
+      { problem: null, plan: null }
+    )
+    const res = await updatePUT(req, { params: Promise.resolve({ id: String(reportId) }) })
+    const data = await res.json()
+
+    expect(res.status).toBe(200)
+    expect(data.data.problem).toBeNull()
+    expect(data.data.plan).toBeNull()
+  })
+
   // RPT-032: submitted状態の日報を更新すると400
   it('RPT-032: submitted状態の日報を更新すると400が返る', async () => {
     const { data: created } = await createTestReport(users.sales.token)
