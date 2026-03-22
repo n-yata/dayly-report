@@ -67,7 +67,15 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       nextAction?: string | null
     } = {}
 
-    if (parsed.data.customer_id !== undefined) updateData.customerId = parsed.data.customer_id
+    if (parsed.data.customer_id !== undefined) {
+      const customer = await prisma.customer.findUnique({
+        where: { id: parsed.data.customer_id },
+      })
+      if (!customer) {
+        return errorResponse('VALIDATION_ERROR', `顧客ID ${parsed.data.customer_id} が存在しません`)
+      }
+      updateData.customerId = parsed.data.customer_id
+    }
     if (parsed.data.visit_time !== undefined) updateData.visitTime = parsed.data.visit_time
     if (parsed.data.purpose !== undefined) updateData.purpose = parsed.data.purpose
     if (parsed.data.case_product !== undefined) updateData.caseProduct = parsed.data.case_product

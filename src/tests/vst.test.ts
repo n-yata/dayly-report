@@ -214,8 +214,8 @@ describe('VST: 訪問記録', () => {
     expect(data.error.code).toBe('VALIDATION_ERROR')
   })
 
-  // VST-008-pre: PUT時に存在しない顧客IDを指定すると400
-  it('VST-008-pre: PUT時に存在しない顧客IDを指定すると400が返る', async () => {
+  // VST-004b: PUT /visit-records/:id で存在しない顧客IDを指定すると400
+  it('VST-004b: PUT /visit-records/:id で存在しない顧客IDを指定すると400が返る', async () => {
     const report = await createDraftReport(users.sales.token, true)
     const visitId = report.visit_records[0].id
 
