@@ -47,12 +47,21 @@ describe('RPT: 日報', () => {
   let users: { sales: TestUser; manager: TestUser; sales2: TestUser }
   let customerId: number
   let createdReportIds: number[] = []
+  let dateCounter = 1
+
+  function uniqueDate(): string {
+    const date = dateCounter++
+    const month = String(Math.ceil(date / 28)).padStart(2, '0')
+    const day = String(((date - 1) % 28) + 1).padStart(2, '0')
+    return `2099-${month}-${day}`
+  }
 
   beforeEach(async () => {
     users = await getTestUsers()
     const customer = await prisma.customer.findFirst()
     customerId = customer!.id
     createdReportIds = []
+    dateCounter = 1
   })
 
   afterEach(async () => {
@@ -61,11 +70,6 @@ describe('RPT: 日報', () => {
       await prisma.dailyReport.deleteMany({ where: { id: { in: createdReportIds } } })
     }
   })
-
-  // 一意な日付を生成するヘルパー
-  function uniqueDate(): string {
-    return `2099-${String(Math.floor(Math.random() * 11) + 1).padStart(2, '0')}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, '0')}`
-  }
 
   async function createTestReport(
     token: string,
