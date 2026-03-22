@@ -179,7 +179,7 @@ describe('RPT: 日報', () => {
 
     if (data.data?.id) createdReportIds.push(data.data.id)
     expect(res.status).toBe(201)
-    expect(data.data.visitRecords).toHaveLength(0)
+    expect(data.data.visit_records).toHaveLength(0)
   })
 
   // RPT-012: 同日の日報が既に存在する
@@ -236,7 +236,7 @@ describe('RPT: 日報', () => {
 
     expect(res.status).toBe(200)
     expect(data.data.id).toBe(reportId)
-    expect(data.data.visitRecords).toBeDefined()
+    expect(data.data.visit_records).toBeDefined()
   })
 
   // RPT-021: salesが他人の日報を取得すると403
@@ -393,8 +393,8 @@ describe('RPT: 日報', () => {
 
     expect(res.status).toBe(200)
     expect(data.data.status).toBe('approved')
-    expect(data.data.approvedBy).not.toBeNull()
-    expect(data.data.approvedAt).not.toBeNull()
+    expect(data.data.approved_by).not.toBeNull()
+    expect(data.data.approved_at).not.toBeNull()
   })
 
   // RPT-043: submitted→rejected（差し戻し）

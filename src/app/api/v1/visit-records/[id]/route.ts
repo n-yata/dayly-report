@@ -73,15 +73,15 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     return successResponse({
       id: updated.id,
-      dailyReportId: updated.dailyReportId,
-      customerId: updated.customerId,
-      customerName: updated.customer.companyName,
-      visitTime: updated.visitTime,
+      daily_report_id: updated.dailyReportId,
+      customer_id: updated.customerId,
+      customer_name: updated.customer.companyName,
+      visit_time: updated.visitTime,
       purpose: updated.purpose,
-      caseProduct: updated.caseProduct,
-      nextAction: updated.nextAction,
-      createdAt: updated.createdAt.toISOString(),
-      updatedAt: updated.updatedAt.toISOString(),
+      case_product: updated.caseProduct,
+      next_action: updated.nextAction,
+      created_at: updated.createdAt.toISOString(),
+      updated_at: updated.updatedAt.toISOString(),
     })
   } catch (error) {
     if (error instanceof UnauthorizedError) return errorResponse('UNAUTHORIZED', error.message)

@@ -62,12 +62,12 @@ export async function GET(request: NextRequest) {
 
     const data = reports.map((report) => ({
       id: report.id,
-      reportDate: report.reportDate.toISOString().split('T')[0],
+      report_date: report.reportDate.toISOString().split('T')[0],
       status: report.status,
-      visitCount: report._count.visitRecords,
+      visit_count: report._count.visitRecords,
       user: { id: report.user.id, name: report.user.name },
-      createdAt: report.createdAt.toISOString(),
-      updatedAt: report.updatedAt.toISOString(),
+      created_at: report.createdAt.toISOString(),
+      updated_at: report.updatedAt.toISOString(),
     }))
 
     return successResponse(data)
