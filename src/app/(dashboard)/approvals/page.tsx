@@ -15,8 +15,8 @@ import {
 
 type DailyReport = {
   id: number
-  reportDate: string
-  visitCount: number
+  report_date: string
+  visit_count: number
   user: { id: number; name: string }
 }
 
@@ -78,9 +78,9 @@ export default function ApprovalsPage() {
             ) : (
               reports.map((report) => (
                 <TableRow key={report.id}>
-                  <TableCell>{new Date(report.reportDate).toLocaleDateString('ja-JP')}</TableCell>
+                  <TableCell>{new Date(report.report_date).toLocaleDateString('ja-JP')}</TableCell>
                   <TableCell>{report.user.name}</TableCell>
-                  <TableCell>{report.visitCount}件</TableCell>
+                  <TableCell>{report.visit_count}件</TableCell>
                   <TableCell>
                     <Button
                       variant="outline"
