@@ -1,4 +1,7 @@
 import { z } from 'zod'
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'
+
+extendZodWithOpenApi(z)
 
 // 日付スキーマ (YYYY-MM-DD)
 export const dateSchema = z

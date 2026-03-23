@@ -1,8 +1,4 @@
-import {
-  OpenAPIRegistry,
-  OpenApiGeneratorV31,
-  extendZodWithOpenApi,
-} from '@asteasolutions/zod-to-openapi'
+import { OpenAPIRegistry, OpenApiGeneratorV31 } from '@asteasolutions/zod-to-openapi'
 import { z } from 'zod'
 import { loginSchema } from '@/lib/schemas/auth'
 import {
@@ -20,8 +16,6 @@ import {
 } from '@/lib/schemas/customer'
 import { userCreateSchema, userUpdateSchema } from '@/lib/schemas/user'
 import { roleSchema, reportStatusSchema, commentTargetSchema } from '@/lib/schemas/common'
-
-extendZodWithOpenApi(z)
 
 export const registry = new OpenAPIRegistry()
 
