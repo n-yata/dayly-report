@@ -18,9 +18,9 @@ import { Input } from '@/components/ui/input'
 
 type DailyReport = {
   id: number
-  reportDate: string
+  report_date: string
   status: 'draft' | 'submitted' | 'approved' | 'rejected'
-  visitCount: number
+  visit_count: number
   user: { id: number; name: string }
 }
 
@@ -136,9 +136,9 @@ export default function DailyReportsPage() {
                   className="cursor-pointer hover:bg-gray-50"
                   onClick={() => router.push(`/daily-reports/${report.id}`)}
                 >
-                  <TableCell>{formatDate(report.reportDate)}</TableCell>
+                  <TableCell>{formatDate(report.report_date)}</TableCell>
                   <TableCell>{report.user.name}</TableCell>
-                  <TableCell>{report.visitCount}件</TableCell>
+                  <TableCell>{report.visit_count}件</TableCell>
                   <TableCell>
                     <Badge variant={statusVariants[report.status]}>
                       {statusLabels[report.status]}

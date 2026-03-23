@@ -18,12 +18,12 @@ import {
 
 type VisitRecord = {
   id: number
-  customerId: number
-  customerName: string
-  visitTime: string
+  customer_id: number
+  customer_name: string
+  visit_time: string
   purpose: string
-  caseProduct: string | null
-  nextAction: string | null
+  case_product: string | null
+  next_action: string | null
 }
 
 type Comment = {
@@ -36,14 +36,14 @@ type Comment = {
 
 type DailyReport = {
   id: number
-  reportDate: string
+  report_date: string
   problem: string | null
   plan: string | null
   status: 'draft' | 'submitted' | 'approved' | 'rejected'
-  approvedBy: { id: number; name: string } | null
-  approvedAt: string | null
+  approved_by: { id: number; name: string } | null
+  approved_at: string | null
   user: { id: number; name: string }
-  visitRecords: VisitRecord[]
+  visit_records: VisitRecord[]
 }
 
 const statusLabels: Record<string, string> = {
@@ -145,7 +145,7 @@ export default function DailyReportDetailPage() {
     <div className="max-w-4xl">
       <div className="mb-6 flex items-center gap-4">
         <h2 className="text-2xl font-bold">
-          日報詳細 - {new Date(report.reportDate).toLocaleDateString('ja-JP')}
+          日報詳細 - {new Date(report.report_date).toLocaleDateString('ja-JP')}
         </h2>
         <span className="text-gray-600">{report.user.name}</span>
         <Badge variant={statusVariants[report.status]}>{statusLabels[report.status]}</Badge>
@@ -173,20 +173,20 @@ export default function DailyReportDetailPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {report.visitRecords.length === 0 ? (
+              {report.visit_records.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={5} className="py-4 text-center text-gray-400">
                     訪問記録がありません
                   </TableCell>
                 </TableRow>
               ) : (
-                report.visitRecords.map((vr) => (
+                report.visit_records.map((vr) => (
                   <TableRow key={vr.id}>
-                    <TableCell>{vr.customerName}</TableCell>
-                    <TableCell>{vr.visitTime}</TableCell>
+                    <TableCell>{vr.customer_name}</TableCell>
+                    <TableCell>{vr.visit_time}</TableCell>
                     <TableCell>{vr.purpose}</TableCell>
-                    <TableCell>{vr.caseProduct ?? '-'}</TableCell>
-                    <TableCell>{vr.nextAction ?? '-'}</TableCell>
+                    <TableCell>{vr.case_product ?? '-'}</TableCell>
+                    <TableCell>{vr.next_action ?? '-'}</TableCell>
                   </TableRow>
                 ))
               )}
@@ -278,10 +278,10 @@ export default function DailyReportDetailPage() {
         </section>
       )}
 
-      {report.approvedBy && (
+      {report.approved_by && (
         <p className="text-sm text-gray-500">
-          承認者: {report.approvedBy.name} (
-          {report.approvedAt ? new Date(report.approvedAt).toLocaleString('ja-JP') : ''})
+          承認者: {report.approved_by.name} (
+          {report.approved_at ? new Date(report.approved_at).toLocaleString('ja-JP') : ''})
         </p>
       )}
     </div>

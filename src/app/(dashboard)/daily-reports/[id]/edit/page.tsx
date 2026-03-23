@@ -52,25 +52,25 @@ export default function EditDailyReportPage() {
     }
     const data = await res.json()
     const report = data.data
-    setReportDate(report.reportDate)
+    setReportDate(report.report_date)
     setProblem(report.problem ?? '')
     setPlan(report.plan ?? '')
     setVisitRecords(
-      report.visitRecords.map(
+      report.visit_records.map(
         (vr: {
           id: number
-          customerId: number
-          visitTime: string
+          customer_id: number
+          visit_time: string
           purpose: string
-          caseProduct: string | null
-          nextAction: string | null
+          case_product: string | null
+          next_action: string | null
         }) => ({
           id: vr.id,
-          customer_id: String(vr.customerId),
-          visit_time: vr.visitTime,
+          customer_id: String(vr.customer_id),
+          visit_time: vr.visit_time,
           purpose: vr.purpose,
-          case_product: vr.caseProduct ?? '',
-          next_action: vr.nextAction ?? '',
+          case_product: vr.case_product ?? '',
+          next_action: vr.next_action ?? '',
         })
       )
     )
