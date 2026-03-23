@@ -1,10 +1,5 @@
 import { SignJWT, jwtVerify } from 'jose'
 
-if (!process.env.JWT_SECRET && process.env.NODE_ENV === 'production') {
-  throw new Error('JWT_SECRET environment variable is required in production')
-}
-
-const JWT_SECRET = process.env.JWT_SECRET ?? 'dev-secret-key-change-in-production'
 const JWT_EXPIRES_IN = '7d'
 
 export type JwtPayload = {
@@ -14,7 +9,11 @@ export type JwtPayload = {
 }
 
 function getSecretKey(): Uint8Array {
-  return new TextEncoder().encode(JWT_SECRET)
+  const secret = process.env.JWT_SECRET
+  if (!secret && process.env.NODE_ENV === 'production') {
+    throw new Error('JWT_SECRET environment variable is required in production')
+  }
+  return new TextEncoder().encode(secret ?? 'dev-secret-key-change-in-production')
 }
 
 /**
