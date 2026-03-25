@@ -130,4 +130,19 @@ describe('AUTH: 認証', () => {
     expect(res.status).toBe(401)
     expect(data.error.code).toBe('UNAUTHORIZED')
   })
+
+  // AUTH-009: 不正なメール形式でログイン
+  it('AUTH-009: メールアドレスの形式が不正なリクエストは400が返る', async () => {
+    const req = new NextRequest('http://localhost/api/v1/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: 'not-an-email', password: 'password123' }),
+    })
+
+    const res = await loginPOST(req)
+    const data = await res.json()
+
+    expect(res.status).toBe(400)
+    expect(data.error.code).toBe('VALIDATION_ERROR')
+  })
 })
